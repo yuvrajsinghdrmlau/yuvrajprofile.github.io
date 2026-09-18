@@ -61,3 +61,55 @@ if (universe) {
     network.style.transform = `scale(${zoom})`;
   }));
 }
+
+// Shared visitor and kudos totals for the static GitHub Pages site.
+const visitCount = document.querySelector('#visit-count');
+const kudosCount = document.querySelector('#kudos-count');
+const kudosButton = document.querySelector('#kudos-button');
+const kudosStatus = document.querySelector('#kudos-status');
+const counterNamespace = 'yuvrajprofile.github.io';
+
+const setCounter = (element, value) => {
+  if (element && Number.isFinite(Number(value))) element.textContent = Number(value).toLocaleString('en-IN');
+};
+
+if (visitCount && kudosCount) {
+  fetch(`https://counterapi.com/api/${counterNamespace}/view/portfolio?unique=true`)
+    .then((response) => response.json())
+    .then((data) => setCounter(visitCount, data.value))
+    .catch(() => { visitCount.textContent = '—'; });
+
+  fetch(`https://counterapi.com/api/${counterNamespace}/vote/kudos?readOnly=true`)
+    .then((response) => response.json())
+    .then((data) => setCounter(kudosCount, data.value))
+    .catch(() => { kudosCount.textContent = '—'; });
+}
+
+if (kudosButton) {
+  const alreadySent = window.localStorage.getItem('yuvraj-kudos-sent') === 'yes';
+  if (alreadySent) {
+    kudosButton.classList.add('is-sent');
+    kudosButton.innerHTML = '<span>✓</span> Kudos sent';
+  }
+  kudosButton.addEventListener('click', () => {
+    if (window.localStorage.getItem('yuvraj-kudos-sent') === 'yes') {
+      kudosStatus.textContent = 'You already left a kudos from this browser. Thank you!';
+      return;
+    }
+    kudosButton.disabled = true;
+    fetch(`https://counterapi.com/api/${counterNamespace}/vote/kudos`)
+      .then((response) => response.json())
+      .then((data) => {
+        setCounter(kudosCount, data.value);
+        window.localStorage.setItem('yuvraj-kudos-sent', 'yes');
+        kudosButton.classList.add('is-sent');
+        kudosButton.innerHTML = '<span>✓</span> Kudos sent';
+        kudosStatus.textContent = 'Thank you for the acknowledgement.';
+        kudosStatus.classList.add('is-success');
+      })
+      .catch(() => {
+        kudosButton.disabled = false;
+        kudosStatus.textContent = 'Please try again in a moment.';
+      });
+  });
+}
