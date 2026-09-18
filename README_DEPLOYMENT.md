@@ -48,3 +48,15 @@ After the site is live:
 ## Update later
 
 Edit a file in GitHub and commit it. GitHub Pages republishes automatically. Keep filenames unchanged unless you also update their references in `index.html`.
+
+## Private visitor messages
+
+The portfolio includes a private message form powered by FormSubmit. Messages are forwarded to `yuvrajdrmlau@gmail.com` and are not shown publicly.
+
+1. Upload the updated files and open the live portfolio.
+2. Submit one test message yourself.
+3. FormSubmit will send an activation email to your inbox.
+4. Open that activation email once.
+5. Future visitor messages will arrive in your email inbox.
+
+FormSubmit is used because GitHub Pages is static and cannot store form submissions by itself.

@@ -145,3 +145,11 @@ reactions.forEach((button) => {
       .catch(() => { button.disabled = false; });
   });
 });
+
+const journalTabs = [...document.querySelectorAll('.journal-tab')];
+const journalCards = [...document.querySelectorAll('.journal-card')];
+journalTabs.forEach((tab) => tab.addEventListener('click', () => {
+  const filter = tab.dataset.journalFilter;
+  journalTabs.forEach((item) => item.classList.toggle('active', item === tab));
+  journalCards.forEach((card) => card.classList.toggle('is-hidden', filter !== 'all' && card.dataset.journalType !== filter));
+}));
