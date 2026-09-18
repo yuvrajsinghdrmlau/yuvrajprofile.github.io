@@ -113,3 +113,32 @@ if (kudosButton) {
       });
   });
 }
+
+// Three lightweight shared reactions make the acknowledgement section more engaging.
+const reactions = [...document.querySelectorAll('.reaction-button')];
+reactions.forEach((button) => {
+  const reaction = button.dataset.reaction;
+  const count = button.querySelector('span');
+  fetch(`https://counterapi.com/api/${counterNamespace}/vote/${reaction}?readOnly=true`)
+    .then((response) => response.json())
+    .then((data) => setCounter(count, data.value))
+    .catch(() => { count.textContent = '—'; });
+
+  const storageKey = `yuvraj-reaction-${reaction}`;
+  if (window.localStorage.getItem(storageKey) === 'yes') {
+    button.classList.add('is-sent');
+    button.disabled = true;
+  }
+  button.addEventListener('click', () => {
+    if (window.localStorage.getItem(storageKey) === 'yes') return;
+    button.disabled = true;
+    fetch(`https://counterapi.com/api/${counterNamespace}/vote/${reaction}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setCounter(count, data.value);
+        window.localStorage.setItem(storageKey, 'yes');
+        button.classList.add('is-sent');
+      })
+      .catch(() => { button.disabled = false; });
+  });
+});
