@@ -49,6 +49,7 @@
         <p class="statement">Builds systems that move from raw data to real-world inference.</p>
         <nav class="section-nav" aria-label="Page sections">
           <a href="#systems">Systems <span>→</span></a>
+          <a href="#universe">Universe <span>→</span></a>
           <a href="#impact">Impact <span>→</span></a>
           <a href="#journey">Journey <span>→</span></a>
           <a href="#toolkit">Toolkit <span>→</span></a>
@@ -168,9 +169,73 @@
       </div>
     </section>
 
+    <section class="universe" id="universe">
+      <div class="universe-heading">
+        <div>
+          <p class="overline">02 / AI systems universe</p>
+          <h2>Follow the<br>connections.</h2>
+          <p>Explore how my projects, experience, methods, and tools fit together. Select a node to see the role it plays in the system.</p>
+        </div>
+        <div class="universe-controls">
+          <label class="universe-search"><span aria-hidden="true">⌕</span><input id="universe-search" type="search" placeholder="Search nodes…" aria-label="Search universe nodes"></label>
+          <div class="cluster-filters" role="group" aria-label="Filter universe clusters">
+            <button class="cluster-filter active" data-filter="all" type="button">All</button>
+            <button class="cluster-filter" data-filter="projects" type="button">Projects</button>
+            <button class="cluster-filter" data-filter="skills" type="button">Skills</button>
+            <button class="cluster-filter" data-filter="tools" type="button">Tools</button>
+          </div>
+        </div>
+      </div>
+      <div class="universe-shell">
+        <aside class="cluster-rail" aria-label="Capability clusters">
+          <div class="cluster-card cluster-projects"><span class="cluster-dot"></span><strong>Projects</strong><b>6</b><small>systems shipped</small></div>
+          <div class="cluster-card cluster-skills"><span class="cluster-dot"></span><strong>Skills</strong><b>12</b><small>capabilities</small></div>
+          <div class="cluster-card cluster-tools"><span class="cluster-dot"></span><strong>Tools</strong><b>14</b><small>production stack</small></div>
+          <div class="cluster-card cluster-journey"><span class="cluster-dot"></span><strong>Experience</strong><b>3</b><small>roles</small></div>
+        </aside>
+        <div class="graph-stage">
+          <svg class="network" viewBox="0 0 860 520" role="img" aria-label="Interactive network of Yuvraj's AI and machine learning work">
+            <g class="edges" aria-hidden="true">
+              <line x1="430" y1="260" x2="205" y2="128"/><line x1="430" y1="260" x2="180" y2="315"/><line x1="430" y1="260" x2="665" y2="135"/><line x1="430" y1="260" x2="684" y2="340"/>
+              <line x1="205" y1="128" x2="104" y2="70"/><line x1="205" y1="128" x2="92" y2="185"/><line x1="180" y1="315" x2="88" y2="390"/><line x1="180" y1="315" x2="112" y2="285"/>
+              <line x1="665" y1="135" x2="764" y2="72"/><line x1="665" y1="135" x2="778" y2="190"/><line x1="684" y1="340" x2="768" y2="410"/><line x1="684" y1="340" x2="770" y2="300"/>
+              <line x1="430" y1="260" x2="432" y2="102"/><line x1="430" y1="260" x2="432" y2="424"/><line x1="430" y1="260" x2="300" y2="460"/><line x1="430" y1="260" x2="566" y2="458"/>
+              <line x1="205" y1="128" x2="432" y2="102"/><line x1="180" y1="315" x2="432" y2="424"/><line x1="665" y1="135" x2="432" y2="102"/><line x1="684" y1="340" x2="566" y2="458"/>
+            </g>
+            <g class="node node-core" data-cluster="all" data-title="Yuvraj Singh" data-meta="Core profile" data-description="AI / Machine Learning Engineer connecting vision research, production inference, and retrieval systems."><circle cx="430" cy="260" r="29"/><text x="430" y="256">Yuvraj</text><text x="430" y="272">Singh</text></g>
+            <g class="node node-project" data-cluster="projects" data-title="Industrial Crack Detection" data-meta="Project · Computer Vision" data-description="EfficientNet and PyTorch pipeline for classifying cracks on stamped metal surfaces."><circle cx="205" cy="128" r="20"/><text x="205" y="124">Crack</text><text x="205" y="139">Detection</text></g>
+            <g class="node node-project" data-cluster="projects" data-title="YOLO-FR" data-meta="Project · Infrared AI" data-description="Feature-refined detection workflow for small targets in low-SNR thermal imagery."><circle cx="180" cy="315" r="20"/><text x="180" y="311">YOLO-FR</text><text x="180" y="326">IR</text></g>
+            <g class="node node-project" data-cluster="projects" data-title="RAG Document QA" data-meta="Project · Generative AI" data-description="Grounded document question answering with embeddings, FAISS, and retrieved context."><circle cx="665" cy="135" r="20"/><text x="665" y="131">RAG</text><text x="665" y="146">Docs</text></g>
+            <g class="node node-project" data-cluster="projects" data-title="RGB + IR Fusion" data-meta="Project · Multimodal Vision" data-description="Feature-level fusion of RGB and infrared inputs for low-light perception."><circle cx="684" cy="340" r="20"/><text x="684" y="336">RGB +</text><text x="684" y="351">IR</text></g>
+            <g class="node node-skill" data-cluster="skills" data-title="Computer Vision" data-meta="Capability cluster" data-description="Detection, segmentation, OpenCV, YOLO, EfficientNet, and attention-based vision systems."><circle cx="432" cy="102" r="18"/><text x="432" y="106">Vision</text></g>
+            <g class="node node-skill" data-cluster="skills" data-title="Distributed Training" data-meta="Capability cluster" data-description="Multi-GPU DDP, mixed precision, CUDA, and reproducible training workflows."><circle cx="432" cy="424" r="18"/><text x="432" y="428">Scale</text></g>
+            <g class="node node-skill" data-cluster="skills" data-title="Production ML" data-meta="Capability cluster" data-description="FastAPI services, Docker packaging, REST APIs, monitoring, and deployment."><circle cx="300" cy="460" r="18"/><text x="300" y="464">Ship</text></g>
+            <g class="node node-skill" data-cluster="skills" data-title="Retrieval Systems" data-meta="Capability cluster" data-description="RAG, sentence transformers, semantic search, and vector retrieval."><circle cx="566" cy="458" r="18"/><text x="566" y="462">Retrieve</text></g>
+            <g class="node node-tool" data-cluster="tools" data-title="PyTorch" data-meta="Tool · Deep Learning" data-description="Primary framework for training and deploying vision models."><circle cx="104" cy="70" r="14"/><text x="104" y="74">PyTorch</text></g>
+            <g class="node node-tool" data-cluster="tools" data-title="OpenCV" data-meta="Tool · Vision" data-description="Image processing and computer vision utilities used across projects."><circle cx="92" cy="185" r="14"/><text x="92" y="189">OpenCV</text></g>
+            <g class="node node-tool" data-cluster="tools" data-title="FastAPI" data-meta="Tool · Serving" data-description="Lightweight API layer for model inference services."><circle cx="88" cy="390" r="14"/><text x="88" y="394">FastAPI</text></g>
+            <g class="node node-tool" data-cluster="tools" data-title="CUDA" data-meta="Tool · Acceleration" data-description="GPU acceleration for training and low-latency inference."><circle cx="764" cy="72" r="14"/><text x="764" y="76">CUDA</text></g>
+            <g class="node node-tool" data-cluster="tools" data-title="FAISS" data-meta="Tool · Retrieval" data-description="Vector similarity search for grounded document retrieval."><circle cx="778" cy="190" r="14"/><text x="778" y="194">FAISS</text></g>
+            <g class="node node-tool" data-cluster="tools" data-title="Docker" data-meta="Tool · Deployment" data-description="Containerized packaging for repeatable deployment."><circle cx="768" cy="410" r="14"/><text x="768" y="414">Docker</text></g>
+            <g class="node node-tool" data-cluster="tools" data-title="GitHub" data-meta="Tool · Collaboration" data-description="Open-source repositories and project documentation."><circle cx="770" cy="300" r="14"/><text x="770" y="304">GitHub</text></g>
+          </svg>
+          <div class="graph-zoom" aria-label="Graph controls"><button type="button" data-zoom="in" aria-label="Zoom in">+</button><button type="button" data-zoom="out" aria-label="Zoom out">−</button><button type="button" data-zoom="reset" aria-label="Reset graph">1:1</button></div>
+          <div class="graph-legend"><span><i class="legend-core"></i>Core</span><span><i class="legend-project"></i>Projects</span><span><i class="legend-skill"></i>Skills</span><span><i class="legend-tool"></i>Tools</span></div>
+        </div>
+        <aside class="insight-panel" aria-live="polite">
+          <p class="insight-label">Selected node</p>
+          <h3 id="universe-insight-title">Yuvraj Singh</h3>
+          <p class="insight-meta" id="universe-insight-meta">Core profile</p>
+          <p id="universe-insight-copy">AI / Machine Learning Engineer connecting vision research, production inference, and retrieval systems.</p>
+          <div class="insight-tags"><span>Research</span><span>Systems</span><span>Delivery</span></div>
+          <a href="#systems" class="text-link">View related work <span>↘</span></a>
+        </aside>
+      </div>
+    </section>
+
     <section class="section journey" id="journey">
       <div class="section-title">
-        <p>02 / Journey</p>
+        <p>03 / Journey</p>
         <h2>Experience</h2>
         <p>From analytics foundations to defence research and industrial vision.</p>
       </div>
@@ -192,7 +257,7 @@
 
     <section class="section toolkit" id="toolkit">
       <div class="section-title">
-        <p>03 / Toolkit</p>
+        <p>04 / Toolkit</p>
         <h2>How I build</h2>
         <p>Focused on measurable model quality and dependable delivery.</p>
       </div>
