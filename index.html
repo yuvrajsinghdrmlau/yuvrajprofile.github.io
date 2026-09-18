@@ -20,6 +20,7 @@
     @media(max-width:900px){.journal{margin-left:24px;margin-right:24px}.journal-heading{align-items:start;flex-direction:column}.journal-tabs{justify-content:flex-start}}@media(max-width:650px){.journal{margin-left:18px;margin-right:18px;padding-top:75px}.journal-grid{grid-template-columns:1fr}.journal-heading h2{font-size:3.4rem}}
     .message{max-width:1100px;margin:0 auto 105px;border:1px solid #27272a;background:#111215;padding:42px;display:grid;grid-template-columns:1fr 1fr;gap:70px}.message h2{font-size:clamp(2.7rem,5vw,4.7rem);line-height:.95;letter-spacing:-.055em;margin:0}.message-copy>p:not(.overline){max-width:520px;color:#a1a1aa;font-size:.9rem;margin:1.5rem 0 0}.message-form{display:grid;gap:12px}.message-form label{color:#a1a1aa;font-size:.72rem}.message-form input:not(.honeypot),.message-form textarea{display:block;width:100%;margin-top:.4rem;border:1px solid #3f3f46;background:#09090b;color:#f4f4f5;padding:.75rem;font:inherit;font-size:.82rem;outline:none}.message-form input:focus,.message-form textarea:focus{border-color:#22d3ee}.message-form textarea{resize:vertical}.message-form .button{justify-self:start;cursor:pointer}.message-note{color:#71717a;font-size:.68rem;margin:0}.honeypot{position:absolute;left:-9999px;opacity:0}
     @media(max-width:900px){.message{margin-left:24px;margin-right:24px;grid-template-columns:1fr;gap:35px}}@media(max-width:650px){.message{margin-left:18px;margin-right:18px;padding:25px}}
+    .journal-feature{grid-column:1/-1;border-color:#155e75;background:linear-gradient(120deg,rgba(8,51,68,.45),#111215)}.journal-details{margin-top:1.25rem;border-top:1px solid #27272a;padding-top:.9rem}.journal-details summary{cursor:pointer;color:#22d3ee;font-size:.75rem}.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem}.concept-grid section{border:1px solid #27272a;padding:12px;background:rgba(9,9,11,.55)}.concept-grid strong{font-size:.75rem;color:#d4d4d8}.concept-grid p{font-size:.75rem!important;margin:.4rem 0 0!important;color:#a1a1aa!important}.concept-wide{grid-column:1/-1}@media(max-width:650px){.concept-grid{grid-template-columns:1fr}.concept-wide{grid-column:auto}}
   </style>
   <script type="application/ld+json">
   {
@@ -302,6 +303,22 @@
         </div>
       </div>
       <div class="journal-grid">
+        <article class="journal-card journal-feature" data-journal-type="thought">
+          <span class="journal-type">Thought · Next scope</span>
+          <h3>Virtual Environment Simulator with Modular Agent Architecture</h3>
+          <p>A rule-driven virtual universe where natural-language scenarios become structured states, specialized simulations, strict law checks, and transparent visual explanations.</p>
+          <details class="journal-details">
+            <summary>Open project concept</summary>
+            <div class="concept-grid">
+              <section><strong>Core idea</strong><p>Parse a scenario, identify the domains involved, enforce prescribed laws, simulate outcomes, and show assumptions and uncertainty.</p></section>
+              <section><strong>Modular agents</strong><p>Scenario parser · law enforcement validator · physics · chemistry · biology/ecology · economics/social · information/logic · custom domains.</p></section>
+              <section><strong>Guard layer</strong><p>Conservation, causality, constraints, sensitivity, and reasonableness monitors inspect the simulation during and after execution.</p></section>
+              <section><strong>Rendering layer</strong><p>Trajectory plots, dependency graphs, heatmaps, timelines, and an explainer that names every law and assumption used.</p></section>
+              <section class="concept-wide"><strong>Example</strong><p>“A 5 kg ball dropped from 100 m with drag.” The orchestrator routes the scenario to mechanics, validates units and causality, checks sensitivity, then returns impact speed, energy, plots, and uncertainty bounds.</p></section>
+            </div>
+          </details>
+          <div><small>Concept specification</small><span>↗</span></div>
+        </article>
         <article class="journal-card" data-journal-type="vlog"><span class="journal-type">Vlog · Planned</span><h3>Benchmark day: testing cracks outside the notebook</h3><p>A behind-the-scenes walkthrough of inference on new metal panels, failure cases, and what the metrics miss.</p><div><small>Coming soon</small><span>↗</span></div></article>
         <article class="journal-card" data-journal-type="report"><span class="journal-type">Report · Technical</span><h3>Why synthetic training can fail on real surfaces</h3><p>Notes from experiments with YOLOv8, small objects, background shift, and domain mismatch.</p><div><small>Draft outline</small><span>↗</span></div></article>
         <article class="journal-card" data-journal-type="thought"><span class="journal-type">Thought · Engineering</span><h3>Good computer vision starts with the test split</h3><p>A practical reflection on leakage, position bias, and evaluating the images a system will actually see.</p><div><small>Draft outline</small><span>↗</span></div></article>
