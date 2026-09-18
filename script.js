@@ -68,40 +68,43 @@ const kudosCount = document.querySelector('#kudos-count');
 const kudosButton = document.querySelector('#kudos-button');
 const kudosStatus = document.querySelector('#kudos-status');
 const counterNamespace = 'yuvrajprofile.github.io';
+const counterRoot = `https://counterapi.com/api/${counterNamespace}`;
 
 const setCounter = (element, value) => {
   if (element && Number.isFinite(Number(value))) element.textContent = Number(value).toLocaleString('en-IN');
 };
 
 if (visitCount && kudosCount) {
-  fetch(`https://counterapi.com/api/${counterNamespace}/view/portfolio?unique=true`)
+  // Count page visits. `unique=true` was intentionally removed: multiple
+  // browsers on one device can otherwise remain at 1 by design.
+  fetch(`${counterRoot}/view/portfolio`)
     .then((response) => response.json())
     .then((data) => setCounter(visitCount, data.value))
     .catch(() => { visitCount.textContent = '—'; });
 
-  fetch(`https://counterapi.com/api/${counterNamespace}/vote/kudos?readOnly=true`)
+  fetch(`${counterRoot}/kudos/total?behavior=vote&readOnly=true`)
     .then((response) => response.json())
     .then((data) => setCounter(kudosCount, data.value))
     .catch(() => { kudosCount.textContent = '—'; });
 }
 
 if (kudosButton) {
-  const alreadySent = window.localStorage.getItem('yuvraj-kudos-sent') === 'yes';
+  const alreadySent = window.localStorage.getItem('yuvraj-kudos-v2-sent') === 'yes';
   if (alreadySent) {
     kudosButton.classList.add('is-sent');
     kudosButton.innerHTML = '<span>✓</span> Kudos sent';
   }
   kudosButton.addEventListener('click', () => {
-    if (window.localStorage.getItem('yuvraj-kudos-sent') === 'yes') {
+    if (window.localStorage.getItem('yuvraj-kudos-v2-sent') === 'yes') {
       kudosStatus.textContent = 'You already left a kudos from this browser. Thank you!';
       return;
     }
     kudosButton.disabled = true;
-    fetch(`https://counterapi.com/api/${counterNamespace}/vote/kudos`)
+    fetch(`${counterRoot}/kudos/total?behavior=vote`)
       .then((response) => response.json())
       .then((data) => {
         setCounter(kudosCount, data.value);
-        window.localStorage.setItem('yuvraj-kudos-sent', 'yes');
+        window.localStorage.setItem('yuvraj-kudos-v2-sent', 'yes');
         kudosButton.classList.add('is-sent');
         kudosButton.innerHTML = '<span>✓</span> Kudos sent';
         kudosStatus.textContent = 'Thank you for the acknowledgement.';
@@ -119,12 +122,12 @@ const reactions = [...document.querySelectorAll('.reaction-button')];
 reactions.forEach((button) => {
   const reaction = button.dataset.reaction;
   const count = button.querySelector('span');
-  fetch(`https://counterapi.com/api/${counterNamespace}/vote/${reaction}?readOnly=true`)
+  fetch(`${counterRoot}/reaction/${reaction}?behavior=vote&readOnly=true`)
     .then((response) => response.json())
     .then((data) => setCounter(count, data.value))
     .catch(() => { count.textContent = '—'; });
 
-  const storageKey = `yuvraj-reaction-${reaction}`;
+  const storageKey = `yuvraj-reaction-v2-${reaction}`;
   if (window.localStorage.getItem(storageKey) === 'yes') {
     button.classList.add('is-sent');
     button.disabled = true;
@@ -132,7 +135,7 @@ reactions.forEach((button) => {
   button.addEventListener('click', () => {
     if (window.localStorage.getItem(storageKey) === 'yes') return;
     button.disabled = true;
-    fetch(`https://counterapi.com/api/${counterNamespace}/vote/${reaction}`)
+    fetch(`${counterRoot}/reaction/${reaction}?behavior=vote`)
       .then((response) => response.json())
       .then((data) => {
         setCounter(count, data.value);
