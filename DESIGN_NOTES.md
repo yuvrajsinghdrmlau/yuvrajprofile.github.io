@@ -1,5 +1,7 @@
 # Space Edition design notes
 
+Running addition (25 September 2026): a responsive Personal Interests section with a code-native SVG track/orbit and runner illustration. It is decorative, not a recorded GPS route. The metric strip displays aggregate statistics calculated from the user's Strava export, with its date range and manual snapshot status. No race results or GPS tracks are published.
+
 Visual direction: a quiet, professional mission-control interface with midnight navy surfaces, icy-blue constellation links, lime highlights, restrained monospace labels, and generous typography. Space imagery is decorative; this is still an AI / ML engineering portfolio.
 
 All visible project art besides the hero is code-native CSS/SVG illustration. The scan, thermal target, waveform, and mini API panels are conceptual decoration, not fabricated project screenshots, measured outputs, or actual instrument telemetry.
