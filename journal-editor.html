@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Yuvraj's mission log · Local editor</title><style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;background:#070d16;color:#eaf0f5;font-size:14px}*{box-sizing:border-box}body{margin:0;padding:40px 24px}main{max-width:1080px;margin:auto}h1{font-weight:500;letter-spacing:-1px;font-size:36px;margin:12px 0}h2{font-size:19px;font-weight:500}p{line-height:1.7;color:#9bb0c3}.eyebrow{color:#c4f58a;font:11px monospace;letter-spacing:1px}.intro{max-width:740px}.notice{border:1px solid #385165;background:#102030;padding:16px 20px;border-radius:8px;margin:24px 0;font-size:12px;line-height:1.8;color:#bdd0df}.layout{display:grid;grid-template-columns:310px 1fr;gap:24px}.panel{background:#0c1622;border:1px solid #263b4d;border-radius:10px;padding:24px}label{font-size:12px;color:#bdd0df;display:block;margin-bottom:18px}input,select,textarea{display:block;width:100%;font:inherit;background:#07111b;color:#eaf0f5;border:1px solid #354d61;border-radius:5px;padding:10px;margin-top:7px}input[type=file]{font-size:12px;padding:10px}textarea{resize:vertical;min-height:90px}button{font:inherit;cursor:pointer;border:1px solid #385165;color:#eaf0f5;background:#112233;border-radius:5px;padding:10px 14px}button:disabled{opacity:.4;cursor:default}button.primary{background:#c4f58a;color:#122011;border-color:#c4f58a;font-weight:600}button.danger{border-color:#82515b;color:#e9b5b8;background:none}button:hover:not(:disabled){filter:brightness(1.14)}:focus-visible{outline:2px solid #c4f58a;outline-offset:4px}.actions{display:flex;gap:10px;flex-wrap:wrap}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.row label{min-width:0}.post-list{display:grid;gap:8px;margin:18px 0}.post-list button{text-align:left;background:#0a131e;font-size:12px;line-height:1.6}.post-list button.selected{border-color:#c4f58a;color:#c4f58a}.post-list small{display:block;color:#7893aa;font-size:10px}.hint{font-size:11px;color:#7e99af;line-height:1.7;margin-top:12px}#editor-status{padding:15px 0;color:#c4f58a;min-height:54px;font-size:12px}.output{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #263b4d;padding-top:24px;margin-top:24px;gap:24px}.output p{font-size:12px}.preview{margin-top:24px;border:1px dashed #354d61;border-radius:5px;padding:20px}.preview h3{font-weight:500;font-size:22px}.preview p{font-size:12px;white-space:pre-line}.preview small{font:10px monospace;color:#c4f58a}[hidden]{display:none!important}@media(max-width:760px){body{padding:24px 18px}.layout{grid-template-columns:1fr}.row{grid-template-columns:1fr}.panel{padding:20px}h1{font-size:30px}.output{align-items:stretch;flex-direction:column}}
+</style></head><body><main><p class="eyebrow">OWNER TOOL / LOCAL ONLY</p><h1>Your words. Your mission log.</h1><p class="intro">Add thoughts, progress notes, articles, or vlogs to your portfolio. Open your downloaded <strong>index.html</strong>, edit its journal, then download the updated page.</p><div class="notice">This editor does not sign in, upload, or publish anything. All editing happens in this browser; files and text are not sent anywhere. Publishing still requires access to your GitHub repository. Keep this tool on your computer—it is not a secure online admin panel.</div><label>1. Open your current portfolio file<input id="site-file" type="file" accept=".html,text/html"></label><p id="editor-status" role="status">Choose the Space Edition index.html to begin. Your original file will not be changed.</p><div id="workspace" hidden><div class="layout"><aside class="panel"><h2>Mission log entries</h2><p class="hint">Select an entry to edit it, or start a new one. Only saved entries are included in the download.</p><div id="post-list" class="post-list"></div><button id="new-entry" type="button">+ New entry</button></aside><section class="panel"><h2 id="edit-heading">Edit entry</h2><form id="entry-form"><label>Title<input name="title" required maxlength="180" placeholder="Give this entry a clear title"></label><div class="row"><label>Category<select name="type"><option value="thought">Thought</option><option value="progress">Progress</option><option value="report">Article / report</option><option value="vlog">Vlog</option></select></label><label>Status<select name="status"><option>Published</option><option>Concept / next scope</option><option>In progress</option></select></label></div><label>Date (optional)<input name="date" type="date"></label><label>Short introduction<textarea name="excerpt" rows="3" required maxlength="650" placeholder="What is this entry about?"></textarea></label><label>Full entry<textarea name="body" rows="12" placeholder="Write your own content. Separate paragraphs with a blank line. Plain text only—no HTML or Markdown rendering."></textarea></label><label>Article or video URL (optional)<input name="url" type="url" placeholder="https://…"></label><p class="hint">Videos open as links. No tracking-heavy embeds. A concept is labeled as a concept; don't add results or dates you can't support.</p><div class="actions"><button class="primary" type="submit">Save entry locally</button><button id="preview-entry" type="button">Preview text</button><button id="delete-entry" class="danger" type="button">Remove entry</button></div></form><article id="entry-preview" class="preview" hidden></article></section></div><div class="output"><div><h2>2. Download & publish</h2><p>Download your updated index.html. In your GitHub repository, upload it at the root to replace the current index.html, then commit. Keep resume.pdf in place.</p></div><button class="primary" id="download-site" type="button">Download updated index.html ↓</button></div><p class="hint">The downloaded page includes its design, image, and JavaScript. No build step. Back up your current file before replacing it. Unsaved form changes are not included.</p></div></main>
+<script>
+(() => {
+  'use strict';
+  const $ = selector => document.querySelector(selector);
+  const form = $('#entry-form');
+  let source = '', entries = [], selected = null, dirty = false, unsavedForm = false;
+  const marker = /<script id="journal-data" type="application\/json">[\s\S]*?<\/script>/;
+  const typeNames = { thought:'Thought',progress:'Progress',report:'Article',vlog:'Vlog' };
+  const fields = ['title','type','status','date','excerpt','body','url'];
+  const status = message => { $('#editor-status').textContent = message; };
+  function text(tag, value) { const element = document.createElement(tag); element.textContent = value || ''; return element; }
+  function listEntries() {
+    $('#post-list').replaceChildren();
+    if (!entries.length) $('#post-list').append(text('p','No entries yet. Start with something real.'));
+    entries.forEach(entry => { const button = document.createElement('button'); button.type = 'button'; button.classList.toggle('selected',entry.id === selected); button.append(text('span',entry.title),text('small',`${typeNames[entry.type]} · ${entry.status || 'Published'}`)); button.addEventListener('click',() => { if (discardDraft()) loadEntry(entry); }); $('#post-list').append(button); });
+    $('#delete-entry').disabled = selected === null;
+  }
+  function discardDraft() { return !unsavedForm || confirm('Discard the unsaved changes in this form? Saved entries remain intact.'); }
+  function loadEntry(entry) {
+    selected = entry?.id || null;
+    form.reset();
+    for (const name of fields) {
+      if (name === 'body') form.elements[name].value = (entry?.body || []).join('\n\n');
+      else form.elements[name].value = entry?.[name] || (name === 'type' ? 'thought' : name === 'status' ? 'Published' : '');
+    }
+    $('#edit-heading').textContent = selected ? 'Edit entry' : 'New entry';
+    $('#entry-preview').hidden = true; unsavedForm = false; listEntries();
+  }
+  function getEntry() {
+    const entry = Object.fromEntries(fields.map(name => [name,form.elements[name].value.trim()]));
+    if (entry.url) { const url = new URL(entry.url); if (!['http:','https:'].includes(url.protocol)) throw new Error('Use an https:// or http:// link.'); }
+    entry.id = selected || `entry-${Date.now()}-${Math.random().toString(36).slice(2,7)}`;
+    entry.body = entry.body.split(/\n\s*\n/).map(paragraph => paragraph.trim()).filter(Boolean);
+    return entry;
+  }
+  $('#site-file').addEventListener('change',async event => {
+    const file = event.target.files[0]; if (!file) return;
+    if ((dirty || unsavedForm) && !confirm('Replace this editing session with the selected file? Download your current changes first if you need them.')) return;
+    try {
+      if (file.size > 5 * 1024 * 1024) throw new Error('File too large. Select the Space Edition index.html (under 5 MB).');
+      const candidate = await file.text();
+      if (!marker.test(candidate)) throw new Error('This file does not contain the Space Edition journal-data block. Select the supplied index.html.');
+      const doc = new DOMParser().parseFromString(candidate,'text/html');
+      const parsed = JSON.parse(doc.querySelector('#journal-data').textContent);
+      if (!Array.isArray(parsed) || parsed.some(entry => !entry || typeof entry.title !== 'string' || !typeNames[entry.type] || (entry.body && (!Array.isArray(entry.body) || entry.body.some(p=>typeof p!=='string'))))) throw new Error('The journal data is not valid. Keep a backup and select a valid portfolio file.');
+      entries = parsed.map((entry,index) => ({...entry,id:entry.id || `imported-${index}`})); source = candidate; dirty = false; unsavedForm = false;
+      $('#workspace').hidden = false; loadEntry(entries[0] || null); status(`Opened ${file.name}. ${entries.length} journal entries loaded. Nothing has been published.`);
+    } catch(error) { status(error.message); }
+  });
+  form.addEventListener('input',()=>{unsavedForm = true;});
+  $('#new-entry').addEventListener('click',()=>{if(discardDraft()){loadEntry(null);form.elements.title.focus();status('New entry. Add your own material, then save it locally.');}});
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    try {
+      const entry = getEntry();
+      if (!entry.title || !entry.excerpt) throw new Error('A title and introduction are required.');
+      const index = entries.findIndex(item=>item.id===selected);
+      if (index < 0) entries.unshift(entry); else entries[index] = entry;
+      dirty = true; loadEntry(entry); status('Entry saved in this session. Download the updated page to keep your changes.');
+    } catch(error) { status(error.message); }
+  });
+  $('#delete-entry').addEventListener('click',()=>{
+    if (!selected || !confirm('Remove this entry from the downloaded version? Your original file and live website are unchanged.')) return;
+    entries = entries.filter(entry=>entry.id!==selected); dirty = true; loadEntry(entries[0] || null); status('Entry removed from this session. Download and upload the page to publish that change.');
+  });
+  $('#preview-entry').addEventListener('click',()=>{
+    try { const entry = getEntry(); const root = $('#entry-preview'); root.replaceChildren(text('small',`${typeNames[entry.type]} · ${entry.status}`),text('h3',entry.title),text('p',entry.excerpt)); entry.body.forEach(paragraph=>root.append(text('p',paragraph))); if(entry.url)root.append(text('p',entry.url)); root.hidden = false; } catch(error) { status(error.message); }
+  });
+  $('#download-site').addEventListener('click',()=>{
+    if (unsavedForm) { status('Save the entry first, or select another entry and discard this draft, before downloading.'); return; }
+    // Escaping < prevents authored text from ending the JSON script tag.
+    const json = JSON.stringify(entries,null,2).replace(/</g,'\\u003c');
+    const opening = '<script id="journal-data" type="application/json">';
+    const closing = '<' + '/script>';
+    const output = source.replace(marker,()=>opening + json + closing);
+    const blob = new Blob([output],{type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = 'index.html'; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+    dirty = false; status('Updated index.html downloaded. Upload it to your GitHub repository to publish. Your live site has not been changed automatically.');
+  });
+  window.addEventListener('beforeunload',event=>{if(dirty||unsavedForm){event.preventDefault();event.returnValue='';}});
+})();
+</script></body></html>
